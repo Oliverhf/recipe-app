@@ -1,10 +1,11 @@
 import {
     createClient,
     createPreviewSubscriptionHook,
-    PortableText as PortableTextComponent,
 } from "next-sanity"
 
-import createImageUrlBuilder from '@sanity/image-url'
+import { PortableText as PortableTextComponent} from '@portabletext/react'
+
+import imageUrlBuilder from '@sanity/image-url'
 
 const config = {
     projectId: "j75sc3mb",
@@ -17,6 +18,6 @@ export const sanityClient = createClient(config)
 
 export const usePreviewSubscription = createPreviewSubscriptionHook(config)
 
-export const urlFor = (source) => createImageUrlBuilder(config).image(source)
+export const urlFor = (source) => imageUrlBuilder(config).image(source)
 
-export const PortableText = (props) => <PortableTextComponent  {...props}/>
+export const PortableText = (props) => <PortableTextComponent components={{}} {...props}/>
