@@ -24,7 +24,7 @@ export default function Home({ recipes }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <h1>Welcome to Oliver&apos;s Kitchen </h1>
+      <h1 className="home-title">Welcome to Oliver&apos;s Kitchen </h1>
 
       <ul className="recipes-list">
         {recipes?.length > 0 &&

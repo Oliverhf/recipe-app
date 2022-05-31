@@ -1,5 +1,7 @@
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
+
 
 import {
   sanityClient,
@@ -22,74 +24,110 @@ const recipeQuery = `*[_type == "recipe" && slug.current == $slug][0]{
             name
         },
     },
+    chef-> {
+        _id,
+        name,
+        image,
+        slug
+    },
     instructions,
     likes
 }`;
 
-export default function OneRecipe({data , preview}) {
+export default function OneRecipe({ data, preview }) {
+  const { data: recipe } = usePreviewSubscription(recipeQuery, {
+    params: { slug: data?.recipe?.slug?.current },
+    initialData: data,
+    enabled: preview,
+  });
 
-  
-    const {data: recipe} = usePreviewSubscription(recipeQuery, {
-        params: {slug: data?.recipe?.slug?.current},
-        initialData: data,
-        enabled: preview
-    })
+  const [likes, setlikes] = useState(data?.recipe?.likes);
 
-    const [likes, setlikes] = useState(data?.recipe?.likes)
+  const router = useRouter();
 
-    const router = useRouter()
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
 
-    if(router.isFallback) {
-        return <div>Loading...</div>
-    }
+  const addLike = async () => {
+    const res = await fetch("/api/handle-like", {
+      method: "POST",
+      body: JSON.stringify({
+        _id: recipe._id,
+      }),
+    }).catch((error) => console.log(error));
 
-    const addLike = async () => {
-        const res = await fetch("/api/handle-like", {
-            method: "POST",
-            body: JSON.stringify({
-                _id: recipe._id,
-            })
-        }).catch((error) => console.log(error))
+    const data = await res.json();
 
-        const data = await res.json()
+    setlikes(data.likes);
+  };
 
-        setlikes(data.likes)
-    }
- 
-    return (
-        <article className="recipe">
-            <h1>{recipe?.name}</h1>
-            <br/>
-            <button
-                className="like-button"
-                onClick={addLike}
-            >{
-                likes} ❤️
-            </button>
-            <main className="breakdown">
-                <img src={data?.recipe?.mainImage ? urlFor(data?.recipe?.mainImage).url() : "https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif"} alt={recipe?.name}  />
-                <div className="wrap-ingredients">
-                    <h2 className="ingredients-title">Ingredients</h2>
-                    <ul className="ingredients">
-                        {data?.recipe?.ingredient?.map((ingredient) => (
-                            <li key={ingredient?._key} className="ingredient">
-                                <p>{ingredient?.wholeNumber ? `▥ ${"Whole Number"}: ${ingredient.wholeNumber}`: null}</p>
-                                <p>{ingredient?.fraction ? `▥ ${"Fraction"}: ${ingredient.fraction}` : null}</p>
-                                <p>{ingredient?.unity ? `▥ ${"Unity"}: ${ingredient.unity}`: null}</p>
-                                <span className="ingredient-name">
-                                {ingredient?.ingredient?.name}
-                                </span>
-                            </li>
-                        ))}
-                    </ul>
-                    <PortableText 
-                        value={recipe?.instructions}
-                        className="instructions"
-                    />
-                </div>
-            </main>
-        </article>
-    )
+  return (
+    <article className="recipe">
+      <div className="wrap-recipe-title">
+        <h1>{recipe?.name}</h1>
+        <button className="like-button" onClick={addLike}>
+                {likes} ❤️
+        </button>
+      </div>
+      <br />
+      {recipe?.chef && (
+        <div className="chef-recipe-info">
+          <img
+            src={
+              recipe?.chef?.image
+                ? urlFor(recipe?.chef?.image).url()
+                : "https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif"
+            }
+            alt={recipe.chef.name}
+          />
+          <Link href={`/chefs/${recipe.chef.slug.current}`}>
+            <a>
+                <h2 className="chef-name">Chef | {recipe?.chef?.name}</h2>
+            </a>
+          </Link>
+        </div>
+      )}
+      <main className="breakdown">
+        <img
+          src={
+            data?.recipe?.mainImage
+              ? urlFor(data?.recipe?.mainImage).url()
+              : "https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif"
+          }
+          alt={recipe?.name}
+        />
+        <div className="wrap-ingredients">
+          <h2 className="ingredients-title">Ingredients</h2>
+          <ul className="ingredients">
+            {data?.recipe?.ingredient?.map((ingredient) => (
+              <li key={ingredient?._key} className="ingredient">
+                <p>
+                  {ingredient?.wholeNumber
+                    ? `▥ ${"Whole Number"}: ${ingredient.wholeNumber}`
+                    : null}
+                </p>
+                <p>
+                  {ingredient?.fraction
+                    ? `▥ ${"Fraction"}: ${ingredient.fraction}`
+                    : null}
+                </p>
+                <p>
+                  {ingredient?.unity
+                    ? `▥ ${"Unity"}: ${ingredient.unity}`
+                    : null}
+                </p>
+                <span className="ingredient-name">
+                  {ingredient?.ingredient?.name}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <PortableText value={recipe?.instructions} className="instructions" />
+        </div>
+      </main>
+    </article>
+  );
 }
 
 export async function getStaticPaths() {
