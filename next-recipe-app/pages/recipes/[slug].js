@@ -59,11 +59,12 @@ export default function OneRecipe({data , preview}) {
     return (
         <article className="recipe">
             <h1>{recipe?.name}</h1>
+            <br/>
             <button
                 className="like-button"
                 onClick={addLike}
             >{
-                likes}❤️
+                likes} ❤️
             </button>
             <main className="breakdown">
                 <img src={data?.recipe?.mainImage ? urlFor(data?.recipe?.mainImage).url() : "https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif"} alt={recipe?.name}  />

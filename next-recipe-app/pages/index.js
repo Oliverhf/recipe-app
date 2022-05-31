@@ -6,7 +6,12 @@ const recipesQuery = `*[_type == "recipe"]{
   _id,
   name,
   slug,
-  mainImage
+  mainImage,
+  chef-> {
+    _id,
+    name,
+    image,
+  }
 }`;
 
 export default function Home({ recipes }) {
@@ -26,7 +31,22 @@ export default function Home({ recipes }) {
             <li key={recipe._id} className="recipe-card">
               <Link href={`/recipes/${recipe.slug.current}`}>
                 <a>
-                  <img src={urlFor(recipe.mainImage).url()} alt={recipe.name} title={recipe.title}/>
+                  <div className="chef-info">
+                    <img
+                      src={urlFor(recipe?.chef?.image).url()}
+                      alt={recipe.chef.name}
+                    />
+                    <span>Chef | {recipe.chef.name}</span>
+                  </div>
+                  <div>
+                    <img
+                      src={urlFor(recipe.mainImage).url()}
+                      alt={recipe.name}
+                      title={recipe.title}
+                    />
+                    <div className="overlay"></div>
+                  </div>
+
                   <span>{recipe.name}</span>
                 </a>
               </Link>
