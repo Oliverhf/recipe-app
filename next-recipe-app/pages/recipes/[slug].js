@@ -68,15 +68,17 @@ export default function OneRecipe({data , preview}) {
             </button>
             <main className="breakdown">
                 <img src={data?.recipe?.mainImage ? urlFor(data?.recipe?.mainImage).url() : "https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif"} alt={recipe?.name}  />
-                <div>
+                <div className="wrap-ingredients">
+                    <h2 className="ingredients-title">Ingredients</h2>
                     <ul className="ingredients">
                         {data?.recipe?.ingredient?.map((ingredient) => (
                             <li key={ingredient?._key} className="ingredient">
-                                {ingredient?.wholeNumber}
-                                {ingredient?.fraction}
-                                {ingredient?.unity}
-                                <br/>
+                                <p>{ingredient?.wholeNumber ? `▥ ${"Whole Number"}: ${ingredient.wholeNumber}`: null}</p>
+                                <p>{ingredient?.fraction ? `▥ ${"Fraction"}: ${ingredient.fraction}` : null}</p>
+                                <p>{ingredient?.unity ? `▥ ${"Unity"}: ${ingredient.unity}`: null}</p>
+                                <span className="ingredient-name">
                                 {ingredient?.ingredient?.name}
+                                </span>
                             </li>
                         ))}
                     </ul>

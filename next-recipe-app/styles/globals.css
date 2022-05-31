@@ -49,9 +49,7 @@ img {
 
 .recipe-card {
   position: relative;
-  border: 1px solid #32292f00;
-  max-width: 280px;
-
+  margin: 0 20px;
 }
 
 .recipe-card a {
@@ -60,7 +58,6 @@ img {
   text-decoration: none;
   color: #F0F7F4;
   font-size: 22px;
-  padding: 20px;
   background-color: transparent;
   transition: all 120ms ease-in-out;
 }
@@ -83,9 +80,15 @@ img {
   background-color: #000000ad;
 }
 
+.recipe-card a:hover .recipe-likes {
+  opacity: 1;
+  transform: translate3d(0,0,0);
+}
+
 .recipe-card img {
   display: block;
   height: 300px;
+  width: 320px;
   object-fit: cover;
   margin-bottom: 12px;
   transition: all 150ms ease-out;
@@ -96,17 +99,31 @@ img {
   z-index: 10;
 }
 
+.recipe-wrap-name {
+  display: flex;
+}
+
+.recipe-card .recipe-likes {
+  display: block;
+  opacity: 0;
+  margin-left: 15px;
+  transform: translate3d(-10px,0,0);
+  transition: all 120ms ease-out;
+  color: rgb(120, 242, 120);
+  font-weight: bolder;
+}
+
 .recipe-card .overlay {
+  position: absolute;
   background-color: #00000000;
   width: 100%;
-  height: 100%;
-  position: absolute;
+  height: 90%;
   left: 0;
   right: 0;
   top: 0;
   z-index: 0;
   transition: all 200ms ease-out;
-  border-radius: 3px;
+  border-radius: 1px;
 }
 
 .recipe h1 {
@@ -133,7 +150,7 @@ img {
   gap: 10px;
   border-radius: 5px;
   box-shadow: 5px 5px 2px rgb(155 155 155);
-  background: linear-gradient(45deg, black, transparent);
+  background: #070707;
   padding: 0;
 }
 
@@ -179,7 +196,7 @@ img {
   transition: all 150ms ease-out;
   position: absolute;
   top: 5px;
-  left: 25px;
+  left: 10px;
   z-index: -1;
 }
 
@@ -192,4 +209,21 @@ img {
 .chef-info span {
   font-size: 14px;
   font-weight: lighter;
+}
+
+
+/* Ingredient */
+
+.ingredient-name {
+  display: block;
+}
+
+.wrap-ingredients {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.ingredients-title {
+  margin: 40px 0 0 0;
+  color: #F0F7F4;
 }

@@ -11,7 +11,8 @@ const recipesQuery = `*[_type == "recipe"]{
     _id,
     name,
     image,
-  }
+  },
+  likes
 }`;
 
 export default function Home({ recipes }) {
@@ -46,8 +47,10 @@ export default function Home({ recipes }) {
                     />
                     <div className="overlay"></div>
                   </div>
-
-                  <span>{recipe.name}</span>
+                  <div className="recipe-wrap-name">
+                    <span>{recipe.name}</span>
+                    <span className="recipe-likes"> {recipe.likes} ❤️</span>
+                  </div>
                 </a>
               </Link>
             </li>
