@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import {
   sanityClient,
   urlFor,
-  usePreviewSubscription,
   PortableText,
 } from "../../lib/sanity";
 

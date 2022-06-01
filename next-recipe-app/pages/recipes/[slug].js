@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { gsap, Power3 } from "gsap/dist/gsap";
 
 
 import {
@@ -49,6 +50,8 @@ export default function OneRecipe({ data, preview }) {
     return <div>Loading...</div>;
   }
 
+  
+
   const addLike = async () => {
     const res = await fetch("/api/handle-like", {
       method: "POST",
@@ -59,19 +62,51 @@ export default function OneRecipe({ data, preview }) {
 
     const data = await res.json();
 
-    setlikes(data.likes);
+    setlikes(data?.likes);
   };
+
+
+
+  useEffect(() => {
+    if(data?.recipe?.name.length > 0 ){
+      gsap.to(".wrap-recipe-title", {
+        opacity: "1",
+        x: "0",
+        scale: "1",
+        ease: Power3.easeInOut,
+        delay: "0.1",
+        duration: 1,
+      })
+    }
+
+    if(data?.recipe?.chef) {
+      gsap.to(".recipe .chef-recipe-info", {
+        opacity: "1",
+        x: "0",
+        scale: "1",
+        ease: Power3.easeInOut,
+        delay: "0.1",
+        duration: 1,
+      })
+    }
+
+ 
+  
+      
+
+   
+  },[])
 
   return (
     <article className="recipe">
       <div className="wrap-recipe-title">
-        <h1>{recipe?.name}</h1>
+        <h1>{data?.recipe?.name}</h1>
         <button className="like-button" onClick={addLike}>
                 {likes} ❤️
         </button>
       </div>
       <br />
-      {recipe?.chef && (
+      {data?.recipe?.chef && (
         <div className="chef-recipe-info">
           <img
             src={
@@ -79,9 +114,9 @@ export default function OneRecipe({ data, preview }) {
                 ? urlFor(recipe?.chef?.image).url()
                 : "https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif"
             }
-            alt={recipe.chef.name}
+            alt={data?.recipe?.chef?.name}
           />
-          <Link href={`/chefs/${recipe.chef.slug.current}`}>
+          <Link href={`/chefs/${recipe?.chef?.slug?.current}`}>
             <a>
                 <h2 className="chef-name">Chef | {recipe?.chef?.name}</h2>
             </a>
@@ -123,7 +158,7 @@ export default function OneRecipe({ data, preview }) {
               </li>
             ))}
           </ul>
-          <PortableText value={recipe?.instructions} className="instructions" />
+          <PortableText value={data?.recipe?.instructions} className="instructions" />
         </div>
       </main>
     </article>

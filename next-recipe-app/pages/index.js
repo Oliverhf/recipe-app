@@ -1,6 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
-import { createRef, useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { sanityClient, urlFor } from "../lib/sanity";
 import { gsap, Power2, Power3 } from "gsap/dist/gsap";
 

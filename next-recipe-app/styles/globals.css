@@ -85,16 +85,12 @@ img {
   color: #F0F7F4;
   font-size: 22px;
   background-color: transparent;
-  transition: all 120ms ease-in-out;
 }
 
 .recipe-card a:hover img {
   filter: drop-shadow(2px 4px 6px black);
 }
 
-.recipe-card a:hover {
-  filter: grayscale(0.7);
-}
 
 .recipe-card a:hover .chef-info {
   transform: scale(1);
@@ -155,6 +151,8 @@ img {
 .wrap-recipe-title {
   display: flex;
   align-items: center;
+  opacity: 0;
+  transform: translate(-20px, 0) scale(0.50);
 }
 
 .recipe h1 {
@@ -177,6 +175,8 @@ img {
   justify-content: space-between;
   width: fit-content;
   margin-bottom: 60px;
+  opacity: 0;
+  transform: translate(-20px,0) scale(0.50);
 }
 
 @media (max-width: 800px) {
