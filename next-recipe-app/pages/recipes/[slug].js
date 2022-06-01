@@ -7,7 +7,7 @@ import { gsap, Power3 } from "gsap/dist/gsap";
 import {
   sanityClient,
   urlFor,
-  usePreviewSubscription,
+  // usePreviewSubscription,
   PortableText,
 } from "../../lib/sanity";
 
@@ -35,12 +35,12 @@ const recipeQuery = `*[_type == "recipe" && slug.current == $slug][0]{
     likes
 }`;
 
-export default function OneRecipe({ data, preview }) {
-  const { data: recipe } = usePreviewSubscription(recipeQuery, {
-    params: { slug: data?.recipe?.slug?.current },
-    initialData: data,
-    enabled: preview,
-  });
+export default function OneRecipe({ data }) {
+  // const { data: recipe } = usePreviewSubscription(recipeQuery, {
+  //   params: { slug: data?.recipe?.slug?.current },
+  //   initialData: data,
+  //   enabled: preview,
+  // });
 
   const [likes, setlikes] = useState(data?.recipe?.likes);
 
@@ -56,7 +56,7 @@ export default function OneRecipe({ data, preview }) {
     const res = await fetch("/api/handle-like", {
       method: "POST",
       body: JSON.stringify({
-        _id: recipe._id,
+        _id: data?.recipe?._id,
       }),
     }).catch((error) => console.log(error));
 
@@ -89,11 +89,6 @@ export default function OneRecipe({ data, preview }) {
         duration: 1,
       })
     }
-
- 
-  
-      
-
    
   },[])
 
@@ -110,15 +105,15 @@ export default function OneRecipe({ data, preview }) {
         <div className="chef-recipe-info">
           <img
             src={
-              recipe?.chef?.image
-                ? urlFor(recipe?.chef?.image).url()
+              data?.recipe?.chef?.image
+                ? urlFor(data?.recipe?.chef?.image).url()
                 : "https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif"
             }
             alt={data?.recipe?.chef?.name}
           />
-          <Link href={`/chefs/${recipe?.chef?.slug?.current}`}>
+          <Link href={`/chefs/${data?.recipe?.chef?.slug?.current}`}>
             <a>
-                <h2 className="chef-name">Chef | {recipe?.chef?.name}</h2>
+                <h2 className="chef-name">Chef | {data?.recipe?.chef?.name}</h2>
             </a>
           </Link>
         </div>
@@ -130,7 +125,7 @@ export default function OneRecipe({ data, preview }) {
               ? urlFor(data?.recipe?.mainImage).url()
               : "https://cdnjs.cloudflare.com/ajax/libs/galleriffic/2.0.1/css/loader.gif"
           }
-          alt={recipe?.name}
+          alt={data?.recipe?.name}
         />
         <div className="wrap-ingredients">
           <h2 className="ingredients-title">Ingredients</h2>
@@ -183,5 +178,5 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const { slug } = params;
   const recipe = await sanityClient.fetch(recipeQuery, { slug });
-  return { props: { data: { recipe }, preview: true } };
+  return { props: { data: { recipe }, preview: false} };
 }
