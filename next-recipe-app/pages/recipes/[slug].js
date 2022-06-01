@@ -81,13 +81,13 @@ export default function OneRecipe({ data }) {
     const res = await fetch("/api/handle-like", {
       method: "POST",
       body: JSON.stringify({
-        _id: data?.recipe?._id,
+        _id: data.recipe._id,
       }),
     }).catch((error) => console.log(error));
 
-    const data = await res.json();
+    const newdata = await res.json();
 
-    setlikes(data?.likes);
+    setlikes(newdata.likes);
   };
 
 
