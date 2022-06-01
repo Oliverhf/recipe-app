@@ -44,29 +44,6 @@ export default function OneRecipe({ data }) {
 
   const [likes, setlikes] = useState(data?.recipe?.likes);
 
-  const router = useRouter();
-
-  if (router.isFallback) {
-    return <div>Loading...</div>;
-  }
-
-  
-
-  const addLike = async () => {
-    const res = await fetch("/api/handle-like", {
-      method: "POST",
-      body: JSON.stringify({
-        _id: data?.recipe?._id,
-      }),
-    }).catch((error) => console.log(error));
-
-    const data = await res.json();
-
-    setlikes(data?.likes);
-  };
-
-
-
   useEffect(() => {
     if(data?.recipe?.name.length > 0 ){
       gsap.to(".wrap-recipe-title", {
@@ -91,6 +68,31 @@ export default function OneRecipe({ data }) {
     }
    
   },[])
+
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+
+  
+
+  const addLike = async () => {
+    const res = await fetch("/api/handle-like", {
+      method: "POST",
+      body: JSON.stringify({
+        _id: data?.recipe?._id,
+      }),
+    }).catch((error) => console.log(error));
+
+    const data = await res.json();
+
+    setlikes(data?.likes);
+  };
+
+
+
+
 
   return (
     <article className="recipe">
