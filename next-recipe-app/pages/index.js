@@ -1,6 +1,8 @@
 import Head from "next/head";
 import Link from "next/link";
+import { createRef, useEffect, useRef } from "react";
 import { sanityClient, urlFor } from "../lib/sanity";
+import { gsap, Power2, Power3 } from "gsap/dist/gsap";
 
 const recipesQuery = `*[_type == "recipe"]{
   _id,
@@ -16,6 +18,57 @@ const recipesQuery = `*[_type == "recipe"]{
 }`;
 
 export default function Home({ recipes }) {
+
+  // const recipesRef = useRef((recipes?.map(() => createRef())))
+
+  // console.log(recipesRef)
+
+  useEffect(() => {
+    if(recipes?.length > 0 ){
+
+      gsap.to(".home-title", {
+        opacity: "1",
+        x: "0",
+        scale: "1",
+        ease: Power3.easeInOut,
+        delay: "0.1",
+        duration: 1,
+      })
+
+      gsap.to(".recipe-card:nth-child(1)", {
+        opacity: "1",
+        x: "0",
+        ease: Power2.easeOut,
+        delay: "0.2",
+        duration: 1,
+      })
+      gsap.to(".recipe-card:nth-child(2)", {
+        opacity: "1",
+        x: "0",
+        ease: Power2.easeOut,
+        delay: "0.2",
+        duration: 1,
+      })
+      gsap.to(".recipe-card:nth-child(3)", {
+        opacity: "1",
+        x: "0",
+        ease: Power2.easeOut,
+        delay: "0.2",
+        duration: 1,
+      })
+      gsap.to(".recipe-card:nth-child(4)", {
+        opacity: "1",
+        x: "0",
+        ease: Power2.easeOut,
+        delay: "0.2",
+        duration: 1,
+      })
+      
+    }
+   
+  },[])
+
+
   return (
     <div>
       <Head>
@@ -29,7 +82,7 @@ export default function Home({ recipes }) {
       <ul className="recipes-list">
         {recipes?.length > 0 &&
           recipes.map((recipe) => (
-            <li key={recipe._id} className="recipe-card">
+            <li key={recipe._id}  className="recipe-card">
               <Link href={`/recipes/${recipe.slug.current}`}>
                 <a>
                   <div className="chef-info">
@@ -39,7 +92,7 @@ export default function Home({ recipes }) {
                     />
                     <span>Chef | {recipe.chef.name}</span>
                   </div>
-                  <div>
+                  <div className="recipe-mainImage">
                     <img
                       src={urlFor(recipe.mainImage).url()}
                       alt={recipe.name}
