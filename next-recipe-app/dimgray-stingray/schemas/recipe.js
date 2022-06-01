@@ -71,30 +71,30 @@ export default {
               },
             },
           ],
-          preview: {
-              select: {
-                  title: "ingredient.name",
-                  name: "ingredient.name",
-                  media: "ingredient.image",
-                  wholeNumber: "wholeNumber",
-                  fraction: "fraction",
-                  unity: "unity"
-              },
-              prepare({
-                title,
-                subtitle,
-                media,
-                wholeNumber = "(No whole number set)",
-                fraction = "(No fraction set)",
-                unity = "(No unit set)"
-            }) {
-              return {
-                  title,
-                  subtitle: `${wholeNumber} ${fraction} ${unity}`,
-                  media
-              }
-            },
-          },
+          // preview: {
+          //     select: {
+          //         title: "ingredient.name",
+          //         name: "ingredient.name",
+          //         media: "ingredient.image",
+          //         wholeNumber: "wholeNumber",
+          //         fraction: "fraction",
+          //         unity: "unity"
+          //     },
+          //     prepare({
+          //       title,
+          //       subtitle,
+          //       media,
+          //       wholeNumber = "(No whole number set)",
+          //       fraction = "(No fraction set)",
+          //       unity = "(No unit set)"
+          //   }) {
+          //     return {
+          //         title,
+          //         subtitle: `${wholeNumber} ${fraction} ${unity}`,
+          //         media
+          //     }
+          //   },
+          // },
         },
       ],
     },
