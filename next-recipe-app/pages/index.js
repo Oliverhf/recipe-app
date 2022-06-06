@@ -2,7 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useEffect } from "react";
 import { sanityClient, urlFor } from "../lib/sanity";
-import { gsap, Power2, Power3 } from "gsap/dist/gsap";
+import { gsap, Power2 } from "gsap/dist/gsap";
 
 const recipesQuery = `*[_type == "recipe"]{
   _id,
@@ -30,8 +30,7 @@ export default function Home({ recipes }) {
         opacity: "1",
         x: "0",
         scale: "1",
-        ease: Power3.easeInOut,
-        delay: "0.1",
+        ease: Power2.easeOut,
         duration: 1,
       })
 
@@ -39,28 +38,24 @@ export default function Home({ recipes }) {
         opacity: "1",
         x: "0",
         ease: Power2.easeOut,
-        delay: "0.2",
         duration: 1,
       })
       gsap.to(".recipe-card:nth-child(2)", {
         opacity: "1",
         x: "0",
         ease: Power2.easeOut,
-        delay: "0.2",
         duration: 1,
       })
       gsap.to(".recipe-card:nth-child(3)", {
         opacity: "1",
         x: "0",
         ease: Power2.easeOut,
-        delay: "0.2",
         duration: 1,
       })
       gsap.to(".recipe-card:nth-child(4)", {
         opacity: "1",
         x: "0",
         ease: Power2.easeOut,
-        delay: "0.2",
         duration: 1,
       })
       
