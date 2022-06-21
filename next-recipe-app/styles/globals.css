@@ -65,11 +65,18 @@ img {
   }
 }
 
+@media(min-width: 800px) {
+  .recipes-list {
+    flex-wrap: wrap;
+  }
+}
+
 .recipe-card {
   position: relative;
-  margin: 0 20px;
+  margin: 0 20px 20px 20px;
   opacity: 0;
-  transform: translate(-20px,0)
+  transform: translate(-20px,0);
+  max-width: 280px;
 }
 
 @media (max-width: 800px) {
@@ -142,7 +149,7 @@ img {
   position: absolute;
   background-color: #000000ad;
   width: 100%;
-  height: 91%;
+  height: 89%;
   left: 0;
   right: 0;
   top: 0;
